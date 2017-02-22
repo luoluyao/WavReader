@@ -25,7 +25,7 @@ public class Capture implements Runnable {
     String errStr;
     Thread thread;
     double duration, seconds;
-    AudioInputStream audioInputStream;
+    static AudioInputStream audioInputStream;
 
     public void start() {
         errStr = null;

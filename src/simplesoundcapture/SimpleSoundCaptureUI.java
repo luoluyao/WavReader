@@ -23,7 +23,6 @@ import javax.swing.border.SoftBevelBorder;
 
 public class SimpleSoundCaptureUI extends JPanel implements ActionListener {
 
-    
     Capture capture = new Capture();
     Playback playback = new Playback();
 
@@ -101,11 +100,4 @@ public class SimpleSoundCaptureUI extends JPanel implements ActionListener {
 
         }
     }
-
-    /**
-     * Write data to the OutputChannel.
-     */
-    /**
-     * Reads data from the input channel and writes to the output stream
-     */
 }

@@ -12,6 +12,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import static simplesoundcapture.Capture.audioInputStream;
 
 /**
  *
@@ -22,7 +23,6 @@ public class Playback implements Runnable {
     SourceDataLine line;
     String errStr;
     Thread thread;
-    AudioInputStream audioInputStream;
     final int bufSize = 16384;
 
     public void start() {
