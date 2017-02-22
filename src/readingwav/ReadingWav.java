@@ -23,7 +23,7 @@ public class ReadingWav {
 
     public byte[] readWav() {
         int totalFramesRead = 0;
-        File inputFile = new File("Yamaha-RM50-Clap.wav");
+        File inputFile = new File("Test.wav");
 
         try {
           return audioInputStream(inputFile, totalFramesRead);
