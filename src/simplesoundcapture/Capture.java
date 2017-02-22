@@ -41,8 +41,8 @@ public class Capture implements Runnable {
     private void shutDown(String message) {
         if ((errStr = message) != null && thread != null) {
             thread = null;
-            playB.setEnabled(true);
-            captB.setText("Record");
+            SimpleSoundCaptureUI.playB.setEnabled(true);
+            SimpleSoundCaptureUI.captB.setText("Record");
             System.err.println(errStr);
         }
     }

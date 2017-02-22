@@ -23,11 +23,11 @@ import javax.swing.border.SoftBevelBorder;
 
 public class SimpleSoundCaptureUI extends JPanel implements ActionListener {
 
-    final int bufSize = 16384;
+    
     Capture capture = new Capture();
     Playback playback = new Playback();
 
-    JButton playB, captB;
+    static JButton playB, captB;
     JTextField textField;
     String errStr;
 
