@@ -5,6 +5,9 @@
  */
 package readingwav;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -20,27 +23,38 @@ import javafx.stage.Stage;
 public class ShowGraph extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
 
         StackPane root = new StackPane();
         ReadingWav read = new ReadingWav();
-        int i = 0;
+        int[] wavRead = read.readWav();
+//        int i = 0;
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        LineChart<Number,Number> lineChart = 
-                new LineChart<>(xAxis,yAxis);
+
+        LineChart<Number, Number> lineChart
+                = new LineChart<>(xAxis, yAxis);
         XYChart.Series series = new XYChart.Series();
-        for (Byte b : read.readWav()) {
-            series.getData().add(new XYChart.Data(i, b));
-            i++;
+
+//        for (int i = 45; i < wavRead.length; i += 8) {
+        int j = wavRead.length;
+        for (int i : wavRead) {
+
+            series.getData().add(new XYChart.Data((ReadingWav.duration / wavRead.length) * j, i));
+            j--;
         }
-        lineChart.getData().add(series);
-        root.getChildren().add(lineChart);
+
+        lineChart.getData()
+                .add(series);
+        root.getChildren()
+                .add(lineChart);
 
         Scene scene = new Scene(root, 300, 250);
 
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle(
+                "Hello World!");
         primaryStage.setScene(scene);
+
         primaryStage.show();
     }
 
