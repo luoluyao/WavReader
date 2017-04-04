@@ -29,7 +29,7 @@ public class ShowGraph extends Application {
 //        int i = 0;
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        
+
         LineChart<Number, Number> lineChart
                 = new LineChart<>(xAxis, yAxis);
         XYChart.Series series = new XYChart.Series();
@@ -37,17 +37,21 @@ public class ShowGraph extends Application {
 //        for (int i = 45; i < wavRead.length; i += 8) {
         double maxTime = ReadingWav.duration;
         double wavLength = wavRead.length;
-        System.out.println("maxtime: " + maxTime + " wavlength: "+wavLength);
-        double minTime = maxTime/wavLength;
+        System.out.println("Wavlength: " + wavLength);
+        double minTime = maxTime / wavLength;
         double timeStep = 0;
         double time = minTime;
+        int i = 0;
         for (double plotPoint : wavRead) {
             
-            System.out.println("time: " + time + "timestep: " + timeStep);
-            
+//            System.out.println("time: " + time + "timestep: " + timeStep);
+//            System.out.println(plotPoint);
+            if(i % 256 == 0){
             series.getData().add(new XYChart.Data(time, plotPoint));
-            timeStep+=minTime;
-            time = minTime + timeStep;  
+            }
+            timeStep += minTime;
+            time = minTime + timeStep;
+            i++;
         }
 
         lineChart.getData().add(series);

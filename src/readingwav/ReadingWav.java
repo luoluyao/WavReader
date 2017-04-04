@@ -7,6 +7,9 @@ package readingwav;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
@@ -25,8 +28,9 @@ public class ReadingWav {
     public int[] readWav() {
 
 //        File inputFile = new File("Test.wav");
-//        File inputFile = new File("onclassical_demo_fiati-di-parma_thuille_terzo-tempo_sestetto_small-version.wav");
-        File inputFile = new File("sine.wav");
+//        File inputFile = new File("sine.wav");
+        File inputFile = new File("onclassical_demo_fiati-di-parma_thuille_terzo-tempo_sestetto_small-version.wav");
+
         try {
             return audioInputStream(inputFile);
 
@@ -38,32 +42,36 @@ public class ReadingWav {
 
     private int[] audioInputStream(File inputFile) throws IOException, UnsupportedAudioFileException {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputFile);
-        int bytesPerFrame = audioInputStream.getFormat().getFrameSize();
         AudioFormat format = audioInputStream.getFormat();
+
+        int bytesPerFrame = audioInputStream.getFormat().getFrameSize();
         long frames = audioInputStream.getFrameLength();
         duration = (frames + 0.0) / format.getFrameRate();
-        System.out.println(duration);
+        Path path = FileSystems.getDefault().getPath("", "onclassical_demo_fiati-di-parma_thuille_terzo-tempo_sestetto_small-version.wav");
 
-        System.out.println("format: " + audioInputStream.getFormat().getFrameRate());
-        System.out.println("frameLength: " + audioInputStream.getFrameLength());
+        System.out.println("Duration: " + duration);
+        System.out.println("Format " + format);
+        System.out.println("FrameRate: " + audioInputStream.getFormat().getFrameRate());
+        System.out.println("SampleRate: " + audioInputStream.getFormat().getSampleRate());
+        System.out.println("FrameLength: " + audioInputStream.getFrameLength());
+        System.out.println("ChannelCount: " + audioInputStream.getFormat().getChannels());
 
-        if (bytesPerFrame == AudioSystem.NOT_SPECIFIED) {
-            bytesPerFrame = 1;
-        }
-        int numBytes = 1024 * bytesPerFrame;
-
-        byte[] audioBytes = new byte[numBytes];
-
-        int totalFramesRead = 0;
-        int numBytesRead;
-        int numFramesRead;
-
-        while ((numBytesRead = audioInputStream.read(audioBytes)) != -1) {
-            numFramesRead = numBytesRead / bytesPerFrame;
-            totalFramesRead += numFramesRead;
-
-        }
-        System.out.println("audioByteslength " + audioBytes.length);
+//        if (bytesPerFrame == AudioSystem.NOT_SPECIFIED) {
+//            bytesPerFrame = 1;
+//        }
+//        int numBytes = 1024 * bytesPerFrame;
+//        byte[] audioBytes = new byte[numBytes];
+        byte[] audioBytes = Files.readAllBytes(path);
+//        int totalFramesRead = 0;
+//        int numBytesRead;
+//        int numFramesRead;
+//
+//        while ((numBytesRead = audioInputStream.read(audioBytes)) != -1) {
+//            numFramesRead = numBytesRead / bytesPerFrame;
+//            totalFramesRead += numFramesRead;
+//
+//        }
+        System.out.println("AudioBytesLength " + audioBytes.length);
         int[] result = null;
 
         if (format.getSampleSizeInBits() == 16) {
@@ -95,7 +103,7 @@ public class ReadingWav {
                 }
             }
         }
-        System.out.println("result length: " + result.length);
+
         return result;
     }
 
