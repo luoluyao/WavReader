@@ -6,8 +6,6 @@
 package readingwav;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -31,28 +29,33 @@ public class ShowGraph extends Application {
 //        int i = 0;
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-
+        
         LineChart<Number, Number> lineChart
                 = new LineChart<>(xAxis, yAxis);
         XYChart.Series series = new XYChart.Series();
 
 //        for (int i = 45; i < wavRead.length; i += 8) {
-        int j = wavRead.length;
-        for (int i : wavRead) {
-
-            series.getData().add(new XYChart.Data((ReadingWav.duration / wavRead.length) * j, i));
-            j--;
+        double maxTime = ReadingWav.duration;
+        double wavLength = wavRead.length;
+        System.out.println("maxtime: " + maxTime + " wavlength: "+wavLength);
+        double minTime = maxTime/wavLength;
+        double timeStep = 0;
+        double time = minTime;
+        for (double plotPoint : wavRead) {
+            
+            System.out.println("time: " + time + "timestep: " + timeStep);
+            
+            series.getData().add(new XYChart.Data(time, plotPoint));
+            timeStep+=minTime;
+            time = minTime + timeStep;  
         }
 
-        lineChart.getData()
-                .add(series);
-        root.getChildren()
-                .add(lineChart);
+        lineChart.getData().add(series);
+        root.getChildren().add(lineChart);
 
         Scene scene = new Scene(root, 300, 250);
 
-        primaryStage.setTitle(
-                "Hello World!");
+        primaryStage.setTitle("Sound analysis");
         primaryStage.setScene(scene);
 
         primaryStage.show();
